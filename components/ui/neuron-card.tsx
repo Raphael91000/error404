@@ -3,6 +3,8 @@
 import React, { useRef, useEffect } from 'react';
 import { Card } from '@/components/ui/card';
 import { Spotlight } from '@/components/ui/spotlight';
+import { useLanguage } from '@/components/language-provider';
+import { translations } from '@/lib/translations';
 
 const ShaderCanvas = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -128,6 +130,9 @@ const ShaderCanvas = () => {
 };
 
 export function IntelligenceCard() {
+  const { language } = useLanguage();
+  const aiCard = translations[language].aiCard;
+
   return (
     <Card className="w-full h-[500px] bg-black/[0.96] relative overflow-hidden border-green-500/20">
       <Spotlight className="-top-40 left-0 md:left-60 md:-top-20" fill="green" />
@@ -135,11 +140,10 @@ export function IntelligenceCard() {
       <div className="flex h-full">
         <div className="flex-1 pt-10 pb-6 px-8 relative z-10 flex flex-col justify-center">
           <h1 className="text-4xl md:text-5xl font-bold text-emerald-400">
-            Intelligence artificielle
+            {aiCard.title}
           </h1>
           <p className="mt-4 text-neutral-300 max-w-lg">
-            Les modèles comme ChatGPT et DALL·E d’OpenAI automatisent la création de contenu, l’analyse de données et
-            l’assistance client, permettant aux entreprises de gagner en productivité.
+            {aiCard.description}
           </p>
         </div>
 

@@ -1,27 +1,13 @@
 'use client';
 
-import { Cpu, Github, Twitter, Linkedin, Mail } from 'lucide-react';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
+import { useLanguage } from '@/components/language-provider';
+import { translations } from '@/lib/translations';
 
 export default function Footer() {
-  const socialLinks = [
-    { icon: Github, href: 'https://github.com', label: 'GitHub' },
-    { icon: Twitter, href: 'https://twitter.com', label: 'Twitter' },
-    { icon: Linkedin, href: 'https://linkedin.com', label: 'LinkedIn' },
-    { icon: Mail, href: 'mailto:contact@neurobots.ai', label: 'Email' },
-  ];
-
-  const footerLinks = [
-    { title: 'Navigation', links: [
-      { label: 'Accueil', href: '/' },
-    ]},
-    { title: 'Légal', links: [
-      { label: 'Mentions légales', href: '/mentions-legales' },
-      { label: 'Politique de confidentialité', href: '/confidentialite' },
-      { label: 'CGU', href: '/cgu' },
-    ]},
-  ];
+  const { language } = useLanguage();
+  const footer = translations[language].footer;
+  const year = new Date().getFullYear();
 
   return (
     <footer className="bg-black border-t border-white/10">
@@ -33,29 +19,43 @@ export default function Footer() {
             </span>
           </div>
 
-          {footerLinks.map((section) => (
-            <div key={section.title}>
-              <h3 className="text-white font-semibold mb-4">{section.title}</h3>
-              <ul className="space-y-2">
-                {section.links.map((link) => (
-                  <li key={link.label}>
-                    <Link
-                      href={link.href}
-                      className="text-gray-400 hover:text-emerald-400 transition-colors"
-                    >
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+          <div>
+            <h3 className="text-white font-semibold mb-4">{footer.navigationTitle}</h3>
+            <ul className="space-y-2">
+              {footer.links.navigation.map((link) => (
+                <li key={link.label}>
+                  <Link
+                    href={link.href}
+                    className="text-gray-400 hover:text-emerald-400 transition-colors"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="text-white font-semibold mb-4">{footer.legalTitle}</h3>
+            <ul className="space-y-2">
+              {footer.links.legal.map((link) => (
+                <li key={link.label}>
+                  <Link
+                    href={link.href}
+                    className="text-gray-400 hover:text-emerald-400 transition-colors"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
 
         <div className="pt-8 border-t border-white/10 text-center text-gray-400 text-sm">
           <p>
-            &copy; {new Date().getFullYear()}{' '}
-            <span className="text-emerald-400 font-medium">NeuroBots</span>. Tous droits réservés · by R
+            &copy; {year}{' '}
+            <span className="text-emerald-400 font-medium">NeuroBots</span>. {footer.rightsSuffix}
           </p>
         </div>
       </div>

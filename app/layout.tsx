@@ -2,6 +2,8 @@ import './globals.css';
 import type { Metadata } from 'next';
 import { Plus_Jakarta_Sans } from 'next/font/google';
 import { BackToHomeButton } from '@/components/back-to-home-button';
+import { LanguageProvider } from '@/components/language-provider';
+import { LanguageToggle } from '@/components/language-toggle';
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ['latin'],
@@ -11,8 +13,8 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  title: 'NeuroBots - Intelligence Artificielle & Robotique',
-  description: 'Explorez l\'univers de l\'IA et de la robotique. Articles, projets et ressources pour les passionnés de tech.',
+  title: 'NeuroBots - Artificial Intelligence & Robotics',
+  description: 'Explore the world of AI and robotics. Articles, projects, and resources for future-ready teams.',
 };
 
 export default function RootLayout({
@@ -21,10 +23,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="fr">
+    <html lang="en">
       <body className={`${plusJakartaSans.variable} font-sans antialiased bg-black text-white`}>
-        {children}
-        <BackToHomeButton />
+        <LanguageProvider>
+          {children}
+          <LanguageToggle />
+          <BackToHomeButton />
+        </LanguageProvider>
       </body>
     </html>
   );

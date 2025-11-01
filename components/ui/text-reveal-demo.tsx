@@ -1,14 +1,19 @@
 'use client';
 
 import { TextRevealByWord } from '@/components/ui/text-reveal';
+import { useLanguage } from '@/components/language-provider';
+import { translations } from '@/lib/translations';
 
 export function TextRevealHeroOverlay() {
+  const { language } = useLanguage();
+  const hero = translations[language].hero;
+
   return (
     <div className="pointer-events-none absolute inset-0 flex justify-center">
       <div className="relative w-full max-w-5xl px-4">
         <TextRevealByWord
-          text="Remplacer les humains? Oui mais par qui?"
-          highlightWords={['oui', 'qui']}
+          text={hero.overlayText}
+          highlightWords={hero.overlayHighlightWords}
           highlightClassName="text-emerald-400"
           baseClassName="text-white"
           containerClassName="h-[150vh]"

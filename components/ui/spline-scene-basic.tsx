@@ -4,10 +4,14 @@ import { useCallback, useRef, useState } from 'react';
 import { SplineScene } from '@/components/ui/spline';
 import { Card } from '@/components/ui/card';
 import { Spotlight } from '@/components/ui/spotlight';
+import { useLanguage } from '@/components/language-provider';
+import { translations } from '@/lib/translations';
 
 export function SplineSceneBasic() {
   const cardRef = useRef<HTMLDivElement | null>(null);
   const [cursorPos, setCursorPos] = useState({ x: 50, y: 50, active: false });
+  const { language } = useLanguage();
+  const robotCard = translations[language].robotCard;
 
   const handleMouseMove = useCallback((event: React.MouseEvent<HTMLDivElement>) => {
     const bounds = cardRef.current?.getBoundingClientRect();
@@ -45,11 +49,10 @@ export function SplineSceneBasic() {
       <div className="flex h-full relative z-10">
         <div className="flex-1 p-8 relative z-10 flex flex-col justify-center">
           <h1 className="text-4xl md:text-5xl font-bold text-emerald-400">
-            Interactive 3D Robot
+            {robotCard.title}
           </h1>
           <p className="mt-4 text-neutral-300 max-w-lg">
-            Les bras robots industriels comme le UR10e d’Universal Robots automatisent les tâches manuelles répétitives
-            en usine (assemblage, palettisation) afin de libérer les opérateurs pour des missions à forte valeur ajoutée.
+            {robotCard.description}
           </p>
         </div>
 
