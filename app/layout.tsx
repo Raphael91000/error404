@@ -1,11 +1,12 @@
 import './globals.css';
 import type { Metadata } from 'next';
-import { Space_Grotesk } from 'next/font/google';
+import { Plus_Jakarta_Sans } from 'next/font/google';
 
-const spaceGrotesk = Space_Grotesk({
+const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
+  weight: ['200', '300', '400', '500', '600', '700'],
   display: 'swap',
+  variable: '--font-plus-jakarta',
 });
 
 export const metadata: Metadata = {
@@ -20,7 +21,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="fr">
-      <body className={spaceGrotesk.className}>{children}</body>
+      <body className={`${plusJakartaSans.variable} font-sans antialiased bg-black text-white`}>
+        {children}
+      </body>
     </html>
   );
 }

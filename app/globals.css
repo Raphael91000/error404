@@ -45,9 +45,11 @@
     --radius: 0.5rem;
     --sky-300: 142, 76%, 45%;
     --gray-300: 0, 0%, 70%;
+    --scroll-progress: 0;
+    --button-ripple-color: oklch(0.145 0 0 / 0.3);
   }
   .dark {
-    --background: 0 0% 3.9%;
+    --background: oklch(0.10 0 0);
     --foreground: 0 0% 98%;
     --card: 0 0% 3.9%;
     --card-foreground: 0 0% 98%;
@@ -71,6 +73,20 @@
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
+    --button-ripple-color: oklch(0.985 0 0 / 0.5);
+  }
+  .theme {
+    --radius-sm: 0.25rem;
+    --radius-md: 0.5rem;
+    --radius-lg: 0.75rem;
+    --radius-xl: 1rem;
+    --radius-none: 0px;
+    --radius-xs: 0.125rem;
+    --radius-default: 0.375rem;
+    --radius-2xl: 1.5rem;
+    --radius-3xl: 1.875rem;
+    --radius-full: 9999px;
+    --color-button-ripple-color: var(----button-ripple-color);
   }
 }
 
@@ -112,6 +128,14 @@
   100% {
     opacity: 1;
     transform: translateY(0);
+    }
+  }
+  @keyframes pulse {
+  0%, 100% {
+    opacity: 0.3;
+    }
+  50% {
+    opacity: 1;
     }
   }
 }
