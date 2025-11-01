@@ -134,7 +134,7 @@ export function IntelligenceCard() {
 
       <div className="flex h-full">
         <div className="flex-1 pt-10 pb-6 px-8 relative z-10 flex flex-col justify-center">
-          <h1 className="text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-b from-green-200 to-green-600">
+          <h1 className="text-4xl md:text-5xl font-bold text-emerald-400">
             Intelligence artificielle
           </h1>
           <p className="mt-4 text-neutral-300 max-w-lg">
