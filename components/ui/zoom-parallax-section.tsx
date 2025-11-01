@@ -111,7 +111,7 @@ export function ZoomParallaxSection() {
         </div>
       </div>
       <ZoomParallax items={items} />
-      <div className="h-[40vh]" />
+      <div className="h-16 md:h-20" />
     </section>
   );
 }

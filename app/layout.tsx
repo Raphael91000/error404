@@ -1,6 +1,7 @@
 import './globals.css';
 import type { Metadata } from 'next';
 import { Plus_Jakarta_Sans } from 'next/font/google';
+import { BackToHomeButton } from '@/components/back-to-home-button';
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ['latin'],
@@ -23,6 +24,7 @@ export default function RootLayout({
     <html lang="fr">
       <body className={`${plusJakartaSans.variable} font-sans antialiased bg-black text-white`}>
         {children}
+        <BackToHomeButton />
       </body>
     </html>
   );
