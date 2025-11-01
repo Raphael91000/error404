@@ -1,6 +1,5 @@
 'use client';
 
-import Navbar from '@/components/navbar';
 import Footer from '@/components/footer';
 import AnimatedBackground from '@/components/animated-background';
 import { motion } from 'framer-motion';
@@ -87,7 +86,6 @@ export default function RessourcesPage() {
   return (
     <main className="relative bg-black text-white min-h-screen">
       <AnimatedBackground />
-      <Navbar />
 
       <section className="relative pt-32 pb-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

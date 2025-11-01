@@ -22,13 +22,7 @@ export default function CTASection() {
   };
 
   return (
-    <section className="relative py-24 overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 to-blue-600/10" />
-      <div className="absolute inset-0">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-cyan-500/20 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-600/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
-      </div>
-
+    <section className="relative py-24 bg-gradient-to-b from-black to-blue-950/20">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -49,7 +43,7 @@ export default function CTASection() {
           </h2>
 
           <p className="text-xl text-gray-300 max-w-2xl mx-auto">
-            Recevez les derniers articles, projets et ressources directement dans votre boîte mail.
+            Recevez les derniers projets et ressources directement dans votre boîte mail.
             Restez à la pointe de l'innovation.
           </p>
 

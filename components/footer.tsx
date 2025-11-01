@@ -15,9 +15,7 @@ export default function Footer() {
   const footerLinks = [
     { title: 'Navigation', links: [
       { label: 'Accueil', href: '/' },
-      { label: 'Articles', href: '/articles' },
       { label: 'Projets', href: '/projets' },
-      { label: 'Ressources', href: '/ressources' },
     ]},
     { title: 'Légal', links: [
       { label: 'Mentions légales', href: '/mentions-legales' },
@@ -34,7 +32,6 @@ export default function Footer() {
             <Link href="/" className="flex items-center gap-2 group mb-4">
               <div className="relative">
                 <Cpu className="w-8 h-8 text-cyan-400 group-hover:text-cyan-300 transition-colors" />
-                <div className="absolute inset-0 bg-cyan-400/20 blur-xl group-hover:bg-cyan-300/30 transition-all" />
               </div>
               <span className="text-xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
                 NeuroBots
@@ -42,7 +39,7 @@ export default function Footer() {
             </Link>
             <p className="text-gray-400 mb-6 max-w-md">
               Explorez l'univers fascinant de l'intelligence artificielle et de la robotique.
-              Articles, projets et ressources pour les passionnés de tech.
+              Projets et ressources pour les passionnés de tech.
             </p>
             <div className="flex gap-4">
               {socialLinks.map((social) => (

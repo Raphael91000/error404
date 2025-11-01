@@ -1,70 +1,14 @@
 'use client';
 
-import Navbar from '@/components/navbar';
 import Footer from '@/components/footer';
 import AnimatedBackground from '@/components/animated-background';
 import { motion } from 'framer-motion';
-import { Card } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { BookOpen, Clock, ArrowRight, Tag } from 'lucide-react';
-import Link from 'next/link';
 
 export default function ArticlesPage() {
-  const articles = [
-    {
-      title: 'Introduction aux Réseaux de Neurones',
-      excerpt: 'Découvrez les fondamentaux des réseaux de neurones artificiels et leur fonctionnement.',
-      category: 'Machine Learning',
-      readTime: '8 min',
-      date: '15 Déc 2024',
-      image: 'https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=800',
-    },
-    {
-      title: 'ChatGPT et les Modèles de Langage',
-      excerpt: 'Comment fonctionnent les LLMs et quelles sont leurs applications pratiques.',
-      category: 'NLP',
-      readTime: '12 min',
-      date: '10 Déc 2024',
-      image: 'https://images.pexels.com/photos/8386434/pexels-photo-8386434.jpeg?auto=compress&cs=tinysrgb&w=800',
-    },
-    {
-      title: 'Robotique Autonome: Les Bases',
-      excerpt: 'Les principes de navigation et de perception pour les robots autonomes.',
-      category: 'Robotique',
-      readTime: '10 min',
-      date: '5 Déc 2024',
-      image: 'https://images.pexels.com/photos/8438981/pexels-photo-8438981.jpeg?auto=compress&cs=tinysrgb&w=800',
-    },
-    {
-      title: 'Computer Vision avec PyTorch',
-      excerpt: 'Guide pratique pour développer des systèmes de vision par ordinateur.',
-      category: 'Computer Vision',
-      readTime: '15 min',
-      date: '1 Déc 2024',
-      image: 'https://images.pexels.com/photos/8386422/pexels-photo-8386422.jpeg?auto=compress&cs=tinysrgb&w=800',
-    },
-    {
-      title: 'Apprentissage par Renforcement',
-      excerpt: 'Comment les agents apprennent à prendre des décisions optimales.',
-      category: 'RL',
-      readTime: '11 min',
-      date: '25 Nov 2024',
-      image: 'https://images.pexels.com/photos/7974/pexels-photo.jpg?auto=compress&cs=tinysrgb&w=800',
-    },
-    {
-      title: 'Ethics in AI Development',
-      excerpt: 'Les enjeux éthiques du développement de l\'intelligence artificielle.',
-      category: 'Éthique',
-      readTime: '9 min',
-      date: '20 Nov 2024',
-      image: 'https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=800',
-    },
-  ];
 
   return (
     <main className="relative bg-black text-white min-h-screen">
       <AnimatedBackground />
-      <Navbar />
 
       <section className="relative pt-32 pb-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -84,71 +28,15 @@ export default function ArticlesPage() {
             </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {articles.map((article, index) => (
-              <motion.div
-                key={article.title}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-              >
-                <Card className="h-full bg-white/5 backdrop-blur-sm border-white/10 hover:bg-white/10 hover:border-cyan-500/30 transition-all duration-300 overflow-hidden group cursor-pointer">
-                  <div className="relative h-48 overflow-hidden">
-                    <img
-                      src={article.image}
-                      alt={article.title}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
-                    <div className="absolute top-4 right-4">
-                      <span className="px-3 py-1 rounded-full bg-cyan-500/80 backdrop-blur-sm text-xs font-medium text-white">
-                        {article.category}
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="p-6 space-y-4">
-                    <h3 className="text-xl font-semibold text-white group-hover:text-cyan-400 transition-colors">
-                      {article.title}
-                    </h3>
-                    <p className="text-gray-400 leading-relaxed">
-                      {article.excerpt}
-                    </p>
-
-                    <div className="flex items-center justify-between text-sm text-gray-500">
-                      <div className="flex items-center gap-2">
-                        <Clock className="w-4 h-4" />
-                        <span>{article.readTime}</span>
-                      </div>
-                      <span>{article.date}</span>
-                    </div>
-
-                    <Button
-                      variant="ghost"
-                      className="w-full text-cyan-400 hover:text-cyan-300 hover:bg-cyan-500/10"
-                    >
-                      Lire l'article
-                      <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                    </Button>
-                  </div>
-                </Card>
-              </motion.div>
-            ))}
-          </div>
-
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.8 }}
-            className="text-center mt-12"
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="max-w-2xl mx-auto bg-white/5 border border-white/10 rounded-2xl p-10 text-center"
           >
-            <Button
-              size="lg"
-              variant="outline"
-              className="border-cyan-500/50 text-cyan-400 hover:bg-cyan-500/10"
-            >
-              Voir plus d'articles
-            </Button>
+            <p className="text-lg text-gray-300">
+              Aucun article n'est actuellement publié. Revenez bientôt pour découvrir nos prochaines actualités.
+            </p>
           </motion.div>
         </div>
       </section>

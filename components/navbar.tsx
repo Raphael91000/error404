@@ -20,9 +20,7 @@ export default function Navbar() {
 
   const navLinks = [
     { href: '/', label: 'Accueil' },
-    { href: '/articles', label: 'Articles' },
     { href: '/projets', label: 'Projets' },
-    { href: '/ressources', label: 'Ressources' },
   ];
 
   return (
@@ -40,7 +38,6 @@ export default function Navbar() {
           <Link href="/" className="flex items-center gap-2 group">
             <div className="relative">
               <Cpu className="w-8 h-8 text-cyan-400 group-hover:text-cyan-300 transition-colors" />
-              <div className="absolute inset-0 bg-cyan-400/20 blur-xl group-hover:bg-cyan-300/30 transition-all" />
             </div>
             <span className="text-xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
               NeuroBots
