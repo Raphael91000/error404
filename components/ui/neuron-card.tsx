@@ -133,7 +133,7 @@ export function IntelligenceCard() {
       <Spotlight className="-top-40 left-0 md:left-60 md:-top-20" fill="green" />
 
       <div className="flex h-full">
-        <div className="flex-1 p-8 relative z-10 flex flex-col justify-center">
+        <div className="flex-1 pt-10 pb-6 px-8 relative z-10 flex flex-col justify-center">
           <h1 className="text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-b from-green-200 to-green-600">
             Intelligence artificielle
           </h1>
