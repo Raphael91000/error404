@@ -48,8 +48,8 @@ export function SplineSceneBasic() {
             Interactive 3D Robot
           </h1>
           <p className="mt-4 text-neutral-300 max-w-lg">
-            Découvrez notre robot en 3D interactif. Explorez les technologies de demain avec une expérience immersive qui
-            capture l'essence de l'innovation.
+            Les bras robots industriels comme le UR10e d’Universal Robots automatisent les tâches manuelles répétitives
+            en usine (assemblage, palettisation) afin de libérer les opérateurs pour des missions à forte valeur ajoutée.
           </p>
         </div>
 

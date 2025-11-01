@@ -138,7 +138,8 @@ export function IntelligenceCard() {
             Intelligence artificielle
           </h1>
           <p className="mt-4 text-neutral-300 max-w-lg">
-            Une expérience immersive qui révèle les mouvements organiques de l'intelligence artificielle dans une ambiance technologique.
+            Les modèles comme ChatGPT et DALL·E d’OpenAI automatisent la création de contenu, l’analyse de données et
+            l’assistance client, permettant aux entreprises de gagner en productivité.
           </p>
         </div>
 

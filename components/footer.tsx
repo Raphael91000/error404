@@ -15,7 +15,6 @@ export default function Footer() {
   const footerLinks = [
     { title: 'Navigation', links: [
       { label: 'Accueil', href: '/' },
-      { label: 'Projets', href: '/projets' },
     ]},
     { title: 'Légal', links: [
       { label: 'Mentions légales', href: '/mentions-legales' },
