@@ -11,15 +11,23 @@ interface LanguageContextValue {
 const LanguageContext = createContext<LanguageContextValue | undefined>(undefined);
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
-  const [language, setLanguage] = useState<Language>(() => {
-    if (typeof window === 'undefined') {
-      return 'en';
-    }
-    const stored = window.localStorage.getItem('language') as Language | null;
-    return stored ?? 'en';
-  });
+  const [language, setLanguage] = useState<Language>('en');
 
   useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    const stored = window.localStorage.getItem('language') as Language | null;
+    if (stored && stored !== language) {
+      setLanguage(stored);
+      document.documentElement.lang = stored;
+    } else {
+      document.documentElement.lang = language;
+    }
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
     window.localStorage.setItem('language', language);
     document.documentElement.lang = language;
   }, [language]);
