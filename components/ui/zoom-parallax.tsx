@@ -1,21 +1,23 @@
 'use client';
 
-import Image from 'next/image';
 import { useScroll, useTransform, motion } from 'framer-motion';
 import { useRef } from 'react';
+import Image from 'next/image';
+import type { ReactNode } from 'react';
 
 interface ZoomParallaxItem {
-	src: string;
+	src?: string;
 	alt?: string;
 	isVideo?: boolean;
+	content?: ReactNode;
 }
 
 interface ZoomParallaxProps {
-	/** Array of media items (images or videos) to be displayed in the parallax effect */
-	images: ZoomParallaxItem[];
+	/** Array of parallax layers that can render media or custom content */
+	items: ZoomParallaxItem[];
 }
 
-export function ZoomParallax({ images }: ZoomParallaxProps) {
+export function ZoomParallax({ items }: ZoomParallaxProps) {
 	const container = useRef<HTMLDivElement | null>(null);
 	const { scrollYProgress } = useScroll({
 		target: container,
@@ -33,8 +35,9 @@ export function ZoomParallax({ images }: ZoomParallaxProps) {
 	return (
 		<div ref={container} className="relative h-[300vh]">
 			<div className="sticky top-0 h-screen overflow-hidden">
-				{images.map(({ src, alt, isVideo }, index) => {
+				{items.map(({ src, alt, isVideo, content }, index) => {
 					const scale = scales[index % scales.length];
+					const hasMedia = Boolean(src || isVideo);
 
 					return (
 						<motion.div
@@ -56,7 +59,8 @@ export function ZoomParallax({ images }: ZoomParallaxProps) {
 									>
 										<source src={src} type="video/mp4" />
 									</video>
-								) : (
+								) : null}
+								{!isVideo && src ? (
 									<Image
 										fill
 										priority={index === 0}
@@ -65,6 +69,17 @@ export function ZoomParallax({ images }: ZoomParallaxProps) {
 										className="object-cover"
 										sizes="(min-width: 1024px) 25vw, (min-width: 640px) 40vw, 80vw"
 									/>
+								) : null}
+								{content && (
+									hasMedia ? (
+										<div className="absolute inset-0 flex items-end bg-gradient-to-t from-black/80 via-black/40 to-transparent p-6">
+											<div className="flex flex-col gap-2 text-white">{content}</div>
+										</div>
+									) : (
+										<div className="flex h-full w-full flex-col justify-between bg-gradient-to-br from-emerald-500/10 via-black/60 to-black/80 p-6 text-white">
+											{content}
+										</div>
+									)
 								)}
 							</div>
 						</motion.div>

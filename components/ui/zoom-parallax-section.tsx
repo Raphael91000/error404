@@ -3,50 +3,92 @@
 import React from 'react';
 import { ZoomParallax } from '@/components/ui/zoom-parallax';
 import { TextRevealByWord } from '@/components/ui/text-reveal';
-import Image from 'next/image';
 
 export function ZoomParallaxSection() {
 
-  const images = [
+  const items = [
     {
-      src: '/Parallax1.jpeg',
-      alt: 'Modern architecture building',
-      unoptimized: true,
+      content: (
+        <div className="flex h-full w-full flex-col items-center justify-center text-center">
+          <span className="text-lg font-semibold uppercase tracking-[0.4em] text-white">
+            Je t&apos;explique <span className="text-emerald-400">pourquoi</span>
+          </span>
+        </div>
+      ),
     },
     {
-      src: '/Parallax1.jpeg',
-      alt: 'Digital numbers display',
-      isVideo: false,
-      unoptimized: true,
+      content: (
+        <>
+          <span className="text-xs uppercase tracking-[0.35em] text-emerald-200/70">
+            2024 • Adoption
+          </span>
+          <h3 className="text-3xl font-semibold leading-tight text-white">~800&nbsp;M</h3>
+          <p className="text-sm text-white/70">
+            Utilisateurs mensuels d&apos;IA dans le monde · DataReportal / Statista
+          </p>
+          <p className="text-sm text-white/70">
+            78&nbsp;% des organisations mondiales intègrent l&apos;IA · Stanford AI Index
+          </p>
+        </>
+      ),
     },
     {
-      src: '/Parallax3.jpeg',
-      alt: 'Digital clock countdown',
-      isVideo: false,
-      unoptimized: true,
+      content: (
+        <>
+          <span className="text-xs uppercase tracking-[0.35em] text-emerald-200/70">
+            2024 • Impact social
+          </span>
+          <h3 className="text-3xl font-semibold leading-tight text-white">12&nbsp;742</h3>
+          <p className="text-sm text-white/70">
+            Postes supprimés aux USA citant l&apos;IA (jan–sept) · Challenger Gray
+          </p>
+        </>
+      ),
     },
     {
-      src: '/Parallax4.jpeg',
-      alt: 'Futuristic robot portrait',
-      isVideo: false,
-      unoptimized: true,
+      content: (
+        <>
+          <span className="text-xs uppercase tracking-[0.35em] text-emerald-200/70">
+            2025 • Adoption
+          </span>
+          <h3 className="text-3xl font-semibold leading-tight text-white">&gt;1&nbsp;Md</h3>
+          <p className="text-sm text-white/70">
+            Utilisateurs mensuels d&apos;IA dans le monde · DataReportal 2025
+          </p>
+          <p className="text-sm text-white/70">
+            34&nbsp;% des adultes US utilisent ChatGPT · Pew Research
+          </p>
+        </>
+      ),
     },
     {
-      src: '/Parallax5.jpeg',
-      alt: 'Neon grid runners',
-      isVideo: false,
-      unoptimized: true,
+      content: (
+        <>
+          <span className="text-xs uppercase tracking-[0.35em] text-emerald-200/70">
+            2025 • Travail
+          </span>
+          <h3 className="text-3xl font-semibold leading-tight text-white">21&nbsp;%</h3>
+          <p className="text-sm text-white/70">
+            Travailleurs US qui utilisent l&apos;IA au quotidien · Pew Research
+          </p>
+        </>
+      ),
     },
     {
-      src: '/Parallax1.jpeg',
-      alt: 'Cybernetic figure',
-      isVideo: false,
-      unoptimized: true,
-    },
-    {
-      src: '/Parallax1.jpeg',
-      alt: 'Digital globe matrix',
-      isVideo: false,
+      content: (
+        <>
+          <span className="text-xs uppercase tracking-[0.35em] text-emerald-200/70">
+            2025 • Impact social
+          </span>
+          <h3 className="text-3xl font-semibold leading-tight text-white">17&nbsp;375</h3>
+          <p className="text-sm text-white/70">
+            Postes supprimés aux USA citant explicitement l&apos;IA (jan–sept) · Challenger Gray
+          </p>
+          <p className="text-sm text-white/70">
+            20&nbsp;219 suppressions pour &laquo;&nbsp;mises à jour technologiques&nbsp;&raquo;
+          </p>
+        </>
+      ),
     },
   ];
 
@@ -68,7 +110,7 @@ export function ZoomParallaxSection() {
           </div>
         </div>
       </div>
-      <ZoomParallax images={images} />
+      <ZoomParallax items={items} />
       <div className="h-[40vh]" />
     </section>
   );
