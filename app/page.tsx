@@ -14,8 +14,8 @@ export default function Home() {
       <HeroSection />
       
       {/* Robot Spline Section */}
-      <section className="relative z-10 px-4 sm:px-6 lg:px-8 py-20">
-        <div className="max-w-7xl mx-auto">
+      <section className="relative min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 py-20">
+        <div className="max-w-7xl mx-auto w-full">
           <SplineSceneBasic />
         </div>
       </section>
