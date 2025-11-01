@@ -12,7 +12,7 @@ export function TextRevealHeroOverlay() {
           highlightClassName="text-emerald-400"
           baseClassName="text-white"
           containerClassName="h-[150vh]"
-          textClassName="justify-center text-center"
+          textClassName="justify-center text-center text-4xl md:text-6xl font-light tracking-tight font-sans"
         />
       </div>
     </div>

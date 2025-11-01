@@ -3,37 +3,50 @@
 import React from 'react';
 import { ZoomParallax } from '@/components/ui/zoom-parallax';
 import { TextRevealByWord } from '@/components/ui/text-reveal';
+import Image from 'next/image';
 
 export function ZoomParallaxSection() {
 
   const images = [
     {
-      src: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1280&h=720&fit=crop&crop=entropy&auto=format&q=80',
+      src: '/Parallax1.jpeg',
       alt: 'Modern architecture building',
+      unoptimized: true,
     },
     {
-      src: 'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=1280&h=720&fit=crop&crop=entropy&auto=format&q=80',
-      alt: 'Urban cityscape at sunset',
+      src: '/Parallax1.jpeg',
+      alt: 'Digital numbers display',
+      isVideo: false,
+      unoptimized: true,
     },
     {
-      src: 'https://images.unsplash.com/photo-1557683316-973673baf926?w=800&h=800&fit=crop&crop=entropy&auto=format&q=80',
-      alt: 'Abstract geometric pattern',
+      src: '/Parallax3.jpeg',
+      alt: 'Digital clock countdown',
+      isVideo: false,
+      unoptimized: true,
     },
     {
-      src: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1280&h=720&fit=crop&crop=entropy&auto=format&q=80',
-      alt: 'Mountain landscape',
+      src: '/Parallax4.jpeg',
+      alt: 'Futuristic robot portrait',
+      isVideo: false,
+      unoptimized: true,
     },
     {
-      src: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&h=800&fit=crop&crop=entropy&auto=format&q=80',
-      alt: 'Minimalist design elements',
+      src: '/Parallax5.jpeg',
+      alt: 'Neon grid runners',
+      isVideo: false,
+      unoptimized: true,
     },
     {
-      src: 'https://images.unsplash.com/photo-1439066615861-d1af74d74000?w=1280&h=720&fit=crop&crop=entropy&auto=format&q=80',
-      alt: 'Ocean waves and beach',
+      src: '/Parallax1.jpeg',
+      alt: 'Cybernetic figure',
+      isVideo: false,
+      unoptimized: true,
     },
     {
-      src: 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=1280&h=720&fit=crop&crop=entropy&auto=format&q=80',
-      alt: 'Forest trees and sunlight',
+      src: '/Parallax1.jpeg',
+      alt: 'Digital globe matrix',
+      isVideo: false,
     },
   ];
 
