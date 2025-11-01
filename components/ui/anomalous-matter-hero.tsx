@@ -1,5 +1,15 @@
 import React, { useRef, useEffect, Suspense } from "react";
-import * as THREE from "three";
+import {
+  Scene,
+  PerspectiveCamera,
+  WebGLRenderer,
+  IcosahedronGeometry,
+  ShaderMaterial,
+  Vector3,
+  Color,
+  PointLight,
+  Mesh,
+} from "three";
 
 export function GenerativeArtScene() {
   const mountRef = useRef(null);
@@ -7,8 +17,8 @@ export function GenerativeArtScene() {
 
   useEffect(() => {
     const currentMount = mountRef.current;
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(
+    const scene = new Scene();
+    const camera = new PerspectiveCamera(
       75,
       currentMount.clientWidth / currentMount.clientHeight,
       0.1,
@@ -16,17 +26,17 @@ export function GenerativeArtScene() {
     );
     camera.position.z = 3;
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    const renderer = new WebGLRenderer({ antialias: true, alpha: true });
     renderer.setSize(currentMount.clientWidth, currentMount.clientHeight);
     renderer.setPixelRatio(window.devicePixelRatio);
     currentMount.appendChild(renderer.domElement);
 
-    const geometry = new THREE.IcosahedronGeometry(1.2, 64);
-    const material = new THREE.ShaderMaterial({
+    const geometry = new IcosahedronGeometry(1.2, 64);
+    const material = new ShaderMaterial({
       uniforms: {
         time: { value: 0 },
-        pointLightPos: { value: new THREE.Vector3(0, 0, 5) },
-        color: { value: new THREE.Color("hsl(var(--sky-300))") },
+        pointLightPos: { value: new Vector3(0, 0, 5) },
+        color: { value: new Color("hsl(var(--sky-300))") },
       },
       vertexShader: `                uniform float time;
                 varying vec3 vNormal;
@@ -107,10 +117,10 @@ export function GenerativeArtScene() {
                 }`,  // (same GLSL code as before)
       wireframe: true,
     });
-    const mesh = new THREE.Mesh(geometry, material);
+    const mesh = new Mesh(geometry, material);
     scene.add(mesh);
 
-    const pointLight = new THREE.PointLight(0xffffff, 1, 100);
+    const pointLight = new PointLight(0xffffff, 1, 100);
     pointLight.position.set(0, 0, 5);
     lightRef.current = pointLight;
     scene.add(pointLight);
@@ -134,7 +144,7 @@ export function GenerativeArtScene() {
     const handleMouseMove = (e) => {
       const x = (e.clientX / window.innerWidth) * 2 - 1;
       const y = -(e.clientY / window.innerHeight) * 2 + 1;
-      const vec = new THREE.Vector3(x, y, 0.5).unproject(camera);
+      const vec = new Vector3(x, y, 0.5).unproject(camera);
       const dir = vec.sub(camera.position).normalize();
       const dist = -camera.position.z / dir.z;
       const pos = camera.position.clone().add(dir.multiplyScalar(dist));
