@@ -1,13 +1,11 @@
 import React, { useRef, useEffect, Suspense } from "react";
 
-type ThreeModule = typeof import("three");
-type SceneInstance = InstanceType<ThreeModule["Scene"]>;
-type PerspectiveCameraInstance = InstanceType<ThreeModule["PerspectiveCamera"]>;
-type WebGLRendererInstance = InstanceType<ThreeModule["WebGLRenderer"]>;
-type ShaderMaterialInstance = InstanceType<ThreeModule["ShaderMaterial"]>;
-type Vector3Instance = InstanceType<ThreeModule["Vector3"]>;
-type PointLightInstance = InstanceType<ThreeModule["PointLight"]>;
-type MeshInstance = InstanceType<ThreeModule["Mesh"]>;
+type SceneInstance = import("three").Scene;
+type PerspectiveCameraInstance = import("three").PerspectiveCamera;
+type WebGLRendererInstance = import("three").WebGLRenderer;
+type ShaderMaterialInstance = import("three").ShaderMaterial;
+type PointLightInstance = import("three").PointLight;
+type MeshInstance = import("three").Mesh;
 
 export function GenerativeArtScene() {
   const mountRef = useRef<HTMLDivElement | null>(null);
