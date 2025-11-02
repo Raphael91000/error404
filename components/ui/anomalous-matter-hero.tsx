@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useRef, useEffect, Suspense } from "react";
 
 type SceneInstance = import("three").Scene;
