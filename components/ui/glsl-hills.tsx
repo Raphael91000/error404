@@ -1,20 +1,39 @@
 import { useEffect, useMemo, useRef } from 'react';
 import * as THREE from 'three';
 
+type ColorInput = string | number | THREE.Color;
+
+interface GLSLHillsPalette {
+  base: ColorInput;
+  glow: ColorInput;
+  bg: ColorInput;
+}
+
+interface GLSLHillsProps {
+  width?: string;
+  height?: string;
+  cameraZ?: number;
+  planeSize?: number;
+  speed?: number;
+  palette?: GLSLHillsPalette;
+}
+
+const defaultPalette: GLSLHillsPalette = {
+  base: '#d0ffec',
+  glow: '#33ffb3',
+  bg: '#000503',
+};
+
 const GLSLHills = ({
   width = '100vw',
   height = '100vh',
   cameraZ = 125,
   planeSize = 256,
   speed = 0.5,
-  palette = {
-    base: '#d0ffec',
-    glow: '#33ffb3',
-    bg: '#000503',
-  },
-}) => {
-  const canvasRef = useRef(null);
-  const containerRef = useRef(null);
+  palette = defaultPalette,
+}: GLSLHillsProps) => {
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const containerRef = useRef<HTMLDivElement | null>(null);
   const colors = useMemo(
     () => ({
       base: palette.base instanceof THREE.Color ? palette.base : new THREE.Color(palette.base),
@@ -25,8 +44,19 @@ const GLSLHills = ({
   );
 
   useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
     // Plane class
     class Plane {
+      uniforms: {
+        time: { type: string; value: number };
+        baseColor: { value: THREE.Color };
+        glowColor: { value: THREE.Color };
+      };
+      mesh: THREE.Mesh<THREE.PlaneGeometry, THREE.RawShaderMaterial>;
+      time: number;
+
       constructor() {
         this.uniforms = {
           time: { type: 'f', value: 0 },
@@ -37,7 +67,7 @@ const GLSLHills = ({
         this.time = speed;
       }
 
-      createMesh() {
+      private createMesh(): THREE.Mesh<THREE.PlaneGeometry, THREE.RawShaderMaterial> {
         return new THREE.Mesh(
           new THREE.PlaneGeometry(planeSize, planeSize, planeSize, planeSize),
           new THREE.RawShaderMaterial({
@@ -170,20 +200,19 @@ const GLSLHills = ({
         );
       }
 
-      render(time) {
-        this.uniforms.time.value += time * this.time;
+      render(delta: number) {
+        this.uniforms.time.value += delta * this.time;
       }
     }
 
     // Three.js setup
-    const renderer = new THREE.WebGLRenderer({ canvas: canvasRef.current, antialias: true });
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 10000);
     const clock = new THREE.Clock();
     const plane = new Plane();
 
     const resize = () => {
-      const canvas = canvasRef.current;
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
       camera.aspect = window.innerWidth / window.innerHeight;
@@ -216,6 +245,7 @@ const GLSLHills = ({
 
     return () => {
       window.removeEventListener('resize', resize);
+      renderer.dispose();
     };
   }, [cameraZ, planeSize, speed, colors.base, colors.glow, colors.bg]);
 

@@ -1,9 +1,9 @@
 import React, { useEffect, useRef } from 'react';
 import * as THREE from 'three';
-import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer';
-import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
-import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass';
-import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass';
+import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
+import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js';
 import '@/styles/ethereal.css';
 
 const ScrollHero = ({
@@ -15,9 +15,9 @@ const ScrollHero = ({
     dark: '#000503'
   },
 }) => {
-  const canvasRef = useRef(null);
-  const meshRef = useRef(null);
-  const composerRef = useRef(null);
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const meshRef = useRef<THREE.Mesh | null>(null);
+  const composerRef = useRef<EffectComposer | null>(null);
   const mouseRef = useRef({ x: 0.5, y: 0.5, sx: 0.5, sy: 0.5 });
 
   // COSINE PALETTE for animated gradients (cinematic-friendly)
@@ -426,7 +426,8 @@ const ScrollHero = ({
 
   // Initialize Three.js
   useEffect(() => {
-    if (!canvasRef.current) return;
+    const canvas = canvasRef.current;
+    if (!canvas) return;
 
     let scene: THREE.Scene;
     let camera: THREE.PerspectiveCamera;
@@ -443,7 +444,7 @@ const ScrollHero = ({
       camera.position.set(0, 0, 5);
 
       renderer = new THREE.WebGLRenderer({
-        canvas: canvasRef.current,
+        canvas,
         antialias: true,
         alpha: true
       });
@@ -451,7 +452,7 @@ const ScrollHero = ({
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
       renderer.toneMapping = THREE.ACESFilmicToneMapping;
       renderer.toneMappingExposure = 1.0;
-      renderer.outputEncoding = THREE.sRGBEncoding;
+      renderer.outputColorSpace = THREE.SRGBColorSpace;
 
       // geometry with lots of facets for specular play
       const geometry = new THREE.IcosahedronGeometry(1.85, 5);
@@ -503,16 +504,16 @@ const ScrollHero = ({
 
         if (mesh) {
           // time & inputs
-          mesh.material.uniforms.uTime.value = t;
+          material.uniforms.uTime.value = t;
 
           // smooth mouse
           mouseRef.current.sx += (mouseRef.current.x - mouseRef.current.sx) * 0.1;
           mouseRef.current.sy += (mouseRef.current.y - mouseRef.current.sy) * 0.1;
-          mesh.material.uniforms.uMouse.value.set(mouseRef.current.sx, mouseRef.current.sy);
+          material.uniforms.uMouse.value.set(mouseRef.current.sx, mouseRef.current.sy);
 
           // static scroll uniforms (no external scroll)
-          mesh.material.uniforms.uScrollProgress.value = 0;
-          mesh.material.uniforms.uScrollVelocity.value = 0;
+          material.uniforms.uScrollProgress.value = 0;
+          material.uniforms.uScrollVelocity.value = 0;
 
           // gentle autonomous motion
           mesh.rotation.x = Math.sin(t * 0.25) * 0.35;
@@ -521,7 +522,7 @@ const ScrollHero = ({
         }
 
         // post uniforms
-        const lastPass = composer.passes[composer.passes.length - 1];
+        const lastPass = composer.passes[composer.passes.length - 1] as ShaderPass | undefined;
         if (lastPass?.uniforms?.uTime) lastPass.uniforms.uTime.value = t;
 
         composer.render();
@@ -534,7 +535,7 @@ const ScrollHero = ({
         camera.updateProjectionMatrix();
         renderer.setSize(window.innerWidth, window.innerHeight);
         composer.setSize(window.innerWidth, window.innerHeight);
-        const lastPass = composer.passes[composer.passes.length - 1];
+        const lastPass = composer.passes[composer.passes.length - 1] as ShaderPass | undefined;
         if (lastPass?.uniforms?.uResolution) {
           lastPass.uniforms.uResolution.value.set(window.innerWidth, window.innerHeight);
         }
@@ -555,7 +556,7 @@ const ScrollHero = ({
 
   // Mouse smoothing (for glow/iris; no rotation)
   useEffect(() => {
-    const onMove = (e) => {
+    const onMove = (e: MouseEvent) => {
       mouseRef.current.x = e.clientX / window.innerWidth;
       mouseRef.current.y = 1 - (e.clientY / window.innerHeight);
     };

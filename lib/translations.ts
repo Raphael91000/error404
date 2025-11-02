@@ -44,6 +44,10 @@ interface SiteTranslations {
     description: string;
   };
   zoomParallax: {
+    intro: {
+      prefix: string;
+      highlight: string;
+    };
     leadText: string;
     leadHighlightWords: string[];
     metrics: MetricCard[];
