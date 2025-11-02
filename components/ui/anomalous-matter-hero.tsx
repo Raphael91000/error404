@@ -1,14 +1,14 @@
 import React, { useRef, useEffect, Suspense } from "react";
-import {
-  Scene,
-  PerspectiveCamera,
-  WebGLRenderer,
-  IcosahedronGeometry,
-  ShaderMaterial,
-  Vector3,
-  Color,
-  PointLight,
-  Mesh,
+import type {
+  Scene as SceneType,
+  PerspectiveCamera as PerspectiveCameraType,
+  WebGLRenderer as WebGLRendererType,
+  IcosahedronGeometry as IcosahedronGeometryType,
+  ShaderMaterial as ShaderMaterialType,
+  Vector3 as Vector3Type,
+  Color as ColorType,
+  PointLight as PointLightType,
+  Mesh as MeshType,
 } from "three";
 
 export function GenerativeArtScene() {
@@ -16,28 +16,55 @@ export function GenerativeArtScene() {
   const lightRef = useRef(null);
 
   useEffect(() => {
-    const currentMount = mountRef.current;
-    const scene = new Scene();
-    const camera = new PerspectiveCamera(
-      75,
-      currentMount.clientWidth / currentMount.clientHeight,
-      0.1,
-      1000
-    );
-    camera.position.z = 3;
+    let scene: SceneType | null = null;
+    let camera: PerspectiveCameraType | null = null;
+    let renderer: WebGLRendererType | null = null;
+    let material: ShaderMaterialType | null = null;
+    let mesh: MeshType | null = null;
+    let frameId: number;
+    let isMounted = true;
 
-    const renderer = new WebGLRenderer({ antialias: true, alpha: true });
-    renderer.setSize(currentMount.clientWidth, currentMount.clientHeight);
-    renderer.setPixelRatio(window.devicePixelRatio);
-    currentMount.appendChild(renderer.domElement);
+    const setup = async () => {
+      const currentMount = mountRef.current;
+      if (!currentMount) return;
 
-    const geometry = new IcosahedronGeometry(1.2, 64);
-    const material = new ShaderMaterial({
-      uniforms: {
-        time: { value: 0 },
-        pointLightPos: { value: new Vector3(0, 0, 5) },
-        color: { value: new Color("hsl(var(--sky-300))") },
-      },
+      const {
+        Scene,
+        PerspectiveCamera,
+        WebGLRenderer,
+        IcosahedronGeometry,
+        ShaderMaterial,
+        Vector3,
+        Color,
+        PointLight,
+        Mesh,
+      } = await import("three");
+
+      if (!isMounted || !mountRef.current) {
+        return;
+      }
+
+      scene = new Scene();
+      camera = new PerspectiveCamera(
+        75,
+        currentMount.clientWidth / currentMount.clientHeight,
+        0.1,
+        1000
+      );
+      camera.position.z = 3;
+
+      renderer = new WebGLRenderer({ antialias: true, alpha: true });
+      renderer.setSize(currentMount.clientWidth, currentMount.clientHeight);
+      renderer.setPixelRatio(window.devicePixelRatio);
+      currentMount.appendChild(renderer.domElement);
+
+      const geometry = new IcosahedronGeometry(1.2, 64);
+      material = new ShaderMaterial({
+        uniforms: {
+          time: { value: 0 },
+          pointLightPos: { value: new Vector3(0, 0, 5) },
+          color: { value: new Color("hsl(var(--sky-300))") },
+        },
       vertexShader: `                uniform float time;
                 varying vec3 vNormal;
                 varying vec3 vPosition;
@@ -117,49 +144,69 @@ export function GenerativeArtScene() {
                 }`,  // (same GLSL code as before)
       wireframe: true,
     });
-    const mesh = new Mesh(geometry, material);
-    scene.add(mesh);
+      mesh = new Mesh(geometry, material);
+      scene.add(mesh);
 
-    const pointLight = new PointLight(0xffffff, 1, 100);
-    pointLight.position.set(0, 0, 5);
-    lightRef.current = pointLight;
-    scene.add(pointLight);
+      const pointLight = new PointLight(0xffffff, 1, 100);
+      pointLight.position.set(0, 0, 5);
+      lightRef.current = pointLight;
+      scene.add(pointLight);
 
-    let frameId;
-    const animate = (t) => {
-      material.uniforms.time.value = t * 0.0003;
-      mesh.rotation.y += 0.0005;
-      mesh.rotation.x += 0.0002;
-      renderer.render(scene, camera);
+      const animate = (t: number) => {
+        if (!material || !mesh || !renderer || !camera || !scene) return;
+        material.uniforms.time.value = t * 0.0003;
+        mesh.rotation.y += 0.0005;
+        mesh.rotation.x += 0.0002;
+        renderer.render(scene, camera);
+        frameId = requestAnimationFrame(animate);
+      };
       frameId = requestAnimationFrame(animate);
-    };
-    animate(0);
 
-    const handleResize = () => {
-      camera.aspect = currentMount.clientWidth / currentMount.clientHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(currentMount.clientWidth, currentMount.clientHeight);
+      const handleResize = () => {
+        if (!camera || !renderer || !mountRef.current) return;
+        camera.aspect =
+          mountRef.current.clientWidth / mountRef.current.clientHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(
+          mountRef.current.clientWidth,
+          mountRef.current.clientHeight
+        );
+      };
+
+      const handleMouseMove = (e: MouseEvent) => {
+        if (!camera || !material || !lightRef.current) return;
+        const x = (e.clientX / window.innerWidth) * 2 - 1;
+        const y = -(e.clientY / window.innerHeight) * 2 + 1;
+        const vec = new Vector3(x, y, 0.5).unproject(camera);
+        const dir = vec.sub(camera.position).normalize();
+        const dist = -camera.position.z / dir.z;
+        const pos = camera.position.clone().add(dir.multiplyScalar(dist));
+        lightRef.current.position.copy(pos);
+        material.uniforms.pointLightPos.value = pos;
+      };
+
+      window.addEventListener("resize", handleResize);
+      window.addEventListener("mousemove", handleMouseMove);
+
+      return () => {
+        cancelAnimationFrame(frameId);
+        window.removeEventListener("resize", handleResize);
+        window.removeEventListener("mousemove", handleMouseMove);
+        if (renderer && mountRef.current) {
+          mountRef.current.removeChild(renderer.domElement);
+        }
+      };
     };
 
-    const handleMouseMove = (e) => {
-      const x = (e.clientX / window.innerWidth) * 2 - 1;
-      const y = -(e.clientY / window.innerHeight) * 2 + 1;
-      const vec = new Vector3(x, y, 0.5).unproject(camera);
-      const dir = vec.sub(camera.position).normalize();
-      const dist = -camera.position.z / dir.z;
-      const pos = camera.position.clone().add(dir.multiplyScalar(dist));
-      lightRef.current.position.copy(pos);
-      material.uniforms.pointLightPos.value = pos;
-    };
+    let cleanup: (() => void) | undefined;
 
-    window.addEventListener("resize", handleResize);
-    window.addEventListener("mousemove", handleMouseMove);
+    setup().then((fn) => {
+      cleanup = fn;
+    });
 
     return () => {
-      cancelAnimationFrame(frameId);
-      window.removeEventListener("resize", handleResize);
-      window.removeEventListener("mousemove", handleMouseMove);
-      currentMount.removeChild(renderer.domElement);
+      isMounted = false;
+      if (cleanup) cleanup();
     };
   }, []);
 
