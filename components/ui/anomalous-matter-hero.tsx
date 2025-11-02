@@ -1,26 +1,24 @@
 import React, { useRef, useEffect, Suspense } from "react";
-import type {
-  Scene as SceneType,
-  PerspectiveCamera as PerspectiveCameraType,
-  WebGLRenderer as WebGLRendererType,
-  IcosahedronGeometry as IcosahedronGeometryType,
-  ShaderMaterial as ShaderMaterialType,
-  Vector3 as Vector3Type,
-  Color as ColorType,
-  PointLight as PointLightType,
-  Mesh as MeshType,
-} from "three";
+
+type ThreeModule = typeof import("three");
+type SceneInstance = InstanceType<ThreeModule["Scene"]>;
+type PerspectiveCameraInstance = InstanceType<ThreeModule["PerspectiveCamera"]>;
+type WebGLRendererInstance = InstanceType<ThreeModule["WebGLRenderer"]>;
+type ShaderMaterialInstance = InstanceType<ThreeModule["ShaderMaterial"]>;
+type Vector3Instance = InstanceType<ThreeModule["Vector3"]>;
+type PointLightInstance = InstanceType<ThreeModule["PointLight"]>;
+type MeshInstance = InstanceType<ThreeModule["Mesh"]>;
 
 export function GenerativeArtScene() {
-  const mountRef = useRef(null);
-  const lightRef = useRef(null);
+  const mountRef = useRef<HTMLDivElement | null>(null);
+  const lightRef = useRef<PointLightInstance | null>(null);
 
   useEffect(() => {
-    let scene: SceneType | null = null;
-    let camera: PerspectiveCameraType | null = null;
-    let renderer: WebGLRendererType | null = null;
-    let material: ShaderMaterialType | null = null;
-    let mesh: MeshType | null = null;
+    let scene: SceneInstance | null = null;
+    let camera: PerspectiveCameraInstance | null = null;
+    let renderer: WebGLRendererInstance | null = null;
+    let material: ShaderMaterialInstance | null = null;
+    let mesh: MeshInstance | null = null;
     let frameId: number;
     let isMounted = true;
 
@@ -65,7 +63,7 @@ export function GenerativeArtScene() {
           pointLightPos: { value: new Vector3(0, 0, 5) },
           color: { value: new Color("hsl(var(--sky-300))") },
         },
-      vertexShader: `                uniform float time;
+        vertexShader: `                uniform float time;
                 varying vec3 vNormal;
                 varying vec3 vPosition;
                 
@@ -124,7 +122,7 @@ export function GenerativeArtScene() {
                     vec3 newPosition = position + normal * displacement;
                     gl_Position = projectionMatrix * modelViewMatrix * vec4(newPosition, 1.0);
                 }`,    // (same GLSL code as before)
-      fragmentShader: `                uniform vec3 color;
+        fragmentShader: `                uniform vec3 color;
                 uniform vec3 pointLightPosition;
                 varying vec3 vNormal;
                 varying vec3 vPosition;
@@ -142,8 +140,8 @@ export function GenerativeArtScene() {
                     
                     gl_FragColor = vec4(finalColor, 1.0);
                 }`,  // (same GLSL code as before)
-      wireframe: true,
-    });
+        wireframe: true,
+      });
       mesh = new Mesh(geometry, material);
       scene.add(mesh);
 
